@@ -4,7 +4,7 @@ import cv2
 classifier = cv2.CascadeClassifier('../lbpcascade_animeface.xml')
 
 # 顔の検出
-image = cv2.imread('../lovelive.jpeg')
+image = cv2.imread('../lovelive.jpg')
 # グレースケールで処理を高速化
 gray_image = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 faces = classifier.detectMultiScale(gray_image)
