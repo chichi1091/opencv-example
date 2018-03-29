@@ -1,7 +1,6 @@
 import cv2
 import os
 import numpy as np
-from PIL import Image
 
 os.chdir("../")
 root = os.getcwd()
@@ -17,7 +16,6 @@ faceCascade = cv2.CascadeClassifier(cascadePath)
 
 # LBPH
 recognizer = cv2.face.LBPHFaceRecognizer_create()
-# recognizer = cv2.createLBPHFaceRecognizer()
 
 
 def get_images_and_labels(path):
@@ -30,12 +28,17 @@ def get_images_and_labels(path):
     for f in os.listdir(path):
         # 画像のパス
         image_path = os.path.join(path, f)
-        # グレースケールで画像を読み込む
-        image_pil = Image.open(image_path).convert('L')
-        # NumPyの配列に格納
-        image = np.array(image_pil, 'uint8')
-        # Haar-like特徴分類器で顔を検知 (パラメータは適当)
-        faces = faceCascade.detectMultiScale(image, 1.1, 9, 0)
+        # # グレースケールで画像を読み込む
+        # image_pil = Image.open(image_path).convert('L')
+        # # NumPyの配列に格納
+        # image = np.array(image_pil, 'uint8')
+
+        image = cv2.imread(image_path)
+        # グレースケールで処理を高速化
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # Haar-like特徴分類器で顔を検知
+        faces = faceCascade.detectMultiScale(image)
 
         # 検出した顔画像の処理
         for (x, y, w, h) in faces:
@@ -44,7 +47,6 @@ def get_images_and_labels(path):
             # 画像を配列に格納
             images.append(roi)
             # ファイル名からラベルを取得 "0_xxxxx.jpg みたいなファイル名を想定している"
-            # labels.append(int(f[0]))
             names = f.split("_")
             labels.append(int(names[0]))
             # ファイル名を配列に格納
@@ -66,9 +68,6 @@ while i < len(test_labels):
     label, confidence = recognizer.predict(test_images[i])
     # 予測結果をコンソール出力
     print("Test Image: {}, Predicted Label: {}, Confidence: {}".format(test_files[i], label, confidence))
-    # テスト画像を表示
-    # cv2.imshow("test image", test_images[i])
-    # cv2.waitKey(5000)
 
     i += 1
 
