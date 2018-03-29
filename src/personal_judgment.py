@@ -1,6 +1,7 @@
 import cv2
 import os
 import numpy as np
+from PIL import Image
 
 os.chdir("../")
 root = os.getcwd()
@@ -10,8 +11,8 @@ train_path = root + '/out'
 # テスト画像
 test_path = root + '/in'
 
-# Haar-like特徴分類器
-cascadePath = root + "/lbpcascade_animeface.xml"
+cascadePath = root + "/haarcascade_frontalface_default.xml"
+# cascadePath = root + "/lbpcascade_animeface.xml"
 faceCascade = cv2.CascadeClassifier(cascadePath)
 
 # LBPH

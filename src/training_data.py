@@ -7,7 +7,8 @@ import cv2
 os.chdir("../")
 root = os.getcwd()
 
-classifier = cv2.CascadeClassifier(root + '/lbpcascade_animeface.xml')
+classifier = cv2.CascadeClassifier(root + '/haarcascade_frontalface_default.xml')
+# classifier = cv2.CascadeClassifier(root + '/lbpcascade_animeface.xml')
 
 output_dir = root + '/out'
 if not os.path.exists(output_dir):
