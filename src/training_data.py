@@ -29,7 +29,7 @@ for file in list:
         utc = datetime.utcfromtimestamp(now)
         # 一人ずつ顔を切り抜く
         face_image = image[y:y+h, x:x+w]
-        output_path = os.path.join(output_dir, '{0}-{1}.jpg'.format(datetime.now().timestamp(), i))
+        output_path = os.path.join(output_dir, '{0}_{1}.jpg'.format(i, datetime.now().timestamp()))
         cv2.imwrite(output_path, face_image)
 
     for x,y,w,h in faces:
